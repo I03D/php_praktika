@@ -7,33 +7,33 @@
 		public function __construct($date = null)
 		{
 			if ($date == null) {
-				$this->date = date('Y-m-d');
+				$this->date = strtotime('now');
 			} else {
-				$this->date = $date;
+				$this->date = strtotime($date);
 			}
 		}
 		
 		public function getDay()
 		{
-			return substr($this->date, 8, 2);
+			return date('d', $this->date);
 		}
 		
 		public function getMonth($lang = null)
 		{
-			return substr($this->date, 5, 2);
+			return date('m', $this->date);
 		}
 		
 		public function getYear()
 		{
-			return substr($this->date, 0, 4);
+			return date('Y', $this->date);
 		}
 		
 		public function getWeekDay($lang = null)
 		{
-			$answer = date('l', strtotime($this->date));
+			$answer = date('l', $this->date);
 
 			if ($lang == null) {
-				$dateArray = getdate(strtotime($this->date));
+				$dateArray = getdate($this->date);
 
 				$answer = "$dateArray[wday]";
 				
@@ -74,49 +74,57 @@
 		
 		public function addDay($value)
 		{
-			$this->date = date('Y-m-d', strtotime($this->date. " + " . $value . " day"));
-			return $this->date;
+			$this->date = strtotime('+' . $value . ' day ', $this->date);//' . $value . ' day');
+			return $this;
 		}
 		
 		public function subDay($value)
 		{
-			$this->date = date('Y-m-d', strtotime($this->date. " - " . $value . " day"));
-			return $this->date;
+			$this->date = strtotime('-' . $value . ' day ', $this->date);//' . $value . ' day');
+			return $this;
 		}
 		
 		public function addMonth($value)
 		{
-			$this->date = date('Y-m-d', strtotime($this->date. " + " . $value . " month"));
-			return $this->date;
+			$this->date = strtotime('+' . $value . ' month ', $this->date);//' . $value . ' day');
+			return $this;
 		}
 		
 		public function subMonth($value)
 		{
-			$this->date = date('Y-m-d', strtotime($this->date. " - " . $value . " month"));
-			return $this->date;
+			$this->date = strtotime('-' . $value . ' month ', $this->date);//' . $value . ' day');
+			return $this;
 		}
 		
 		public function addYear($value)
 		{
-			$this->date = date('Y-m-d', strtotime($this->date. " + " . $value . " year"));
-			return $this->date;
+			$this->date = strtotime('+' . $value . ' year ', $this->date);//' . $value . ' day');
+			return $this;
 		}
 		
 		public function subYear($value)
 		{
-			$this->date = date('Y-m-d', strtotime($this->date. " - " . $value . " year"));
-			return $this->date;
+			$this->date = strtotime('-' . $value . ' year ', $this->date);//' . $value . ' day');
+			return $this;
 		}
 		
 		// Максименко И-03
-		public function format($format)
+		public function format($format = null)
 		{
 			// выведет дату в указанном формате
+			// ЕСЛИ НЕ УКАЗАН, ТОГДА
 			// формат пусть будет такой же, как в функции date
+
+			if ($format == null) {
+				return date('Y-m-d', $this->date);
+			} else {
+				return date($format, $this->date);
+			}
 		}
 		
 		public function __toString()
 		{
+			return date('Y-m-d', $this->date);
 			// выведет дату в формате 'год-месяц-день'
 		}
 	}
@@ -137,4 +145,5 @@
 
 	echo (new Date('2025-12-31'))->addYear(1).'<br>'; // '2026-12-31'
 	echo (new Date('2025-12-31'))->addDay(1).'<br>';  // '2026-01-01'
+	echo (new Date('2025-12-31'))->subDay(3)->addYear(1).'<br>'; // '2026-12-28'
 ?> 
