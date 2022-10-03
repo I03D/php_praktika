@@ -1,5 +1,5 @@
 <?php
-	require '56.1.php';
+	require_once '56.1.php';
 
 	echo '___<br>';
 
