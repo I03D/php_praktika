@@ -1,5 +1,5 @@
 <?php
-	include '56.1.php';
+	require '56.1.php';
 
 	echo '___<br>';
 
