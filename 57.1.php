@@ -5,7 +5,11 @@
 
 	class Interval
 	{
-		public function __construct(Date $date1, Date $date2)
+		public string $days = '';
+		public string $months = '';
+		public string $years = '';
+
+		public function __construct(Date $date1 = null, Date $date2 = null)
 		{
 			$this->date1 = new DateTime($date1);
 			$this->date2 = new DateTime($date2);
@@ -13,39 +17,49 @@
 		
 		public function toDays()
 		{
-			$diff = $this->date1->diff($this->date2);
-			return $diff;
+			$this->days = $this->date1->diff($this->date2)->format('%d');
+			return $this->days;
 		}
 		
 		public function toMonths()
 		{
-			$diff = $this->date1->diff($this->date2);
-			return $diff;
+			$this->months = $this->date1->diff($this->date2)->format('%m');
+			return $this->months;
 		}
 		
 		public function toYears()
 		{
-			$diff = $this->date1->diff($this->date2);
-			return $diff;
+			$this->years = $this->date1->diff($this->date2)->format('%y');
+			return $this->years;
 		}
 		
 		public function __toString()
 		{
-			return $this->days;
-			// return (string) ['years' => $this->toYears, 'months' => $this->toMonths, 'days' => $this->toDays];
+			if ($this->years == '') {
+				$this->years = '';
+			} else {
+				$prm = (int)$this->years + 1;
+				$this->years = (string)$prm;
+			}
+
+			return implode(' ', ['years' => $this->years, 'months' => $this->months, 'days' => $this->days]);
+
+			// return $this->diff->format('%d');
 			// выведет результат в виде массива
 			// ['years' => '', 'months' => '', 'days' => '']
 		}
 	}
 
-	$date1 = new Date('2025-12-31');
-	$date2 = new Date('2026-11-28');
+	$date1 = new Date('2024-12-31');
+	$date2 = new Date('2027-11-28');
 
 	$interval = new Interval($date1, $date2);
 
 	echo $interval->toDays().'<br>';   // выведет разницу в днях
 	echo $interval->toMonths().'<br>'; // выведет разницу в месяцах
 	echo $interval->toYears().'<br>';  // выведет разницу в годах
+
+	echo '<br>';
 
  	var_dump($interval); // массив вида ['years' => '', 'months' => '', 'days' => '']
 
