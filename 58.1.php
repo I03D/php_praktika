@@ -24,6 +24,10 @@
 			if ($filePath != '') {
 				$this->path = "./$filePath";
 				
+				if (!file_exists(dirname($this->path))) {
+					mkdir(dirname($this->path), 0777, true);
+				}
+
 				if (!file_exists($filePath)) {
 					file_put_contents($filePath, '');
 				}
@@ -39,7 +43,7 @@
 		}
 
 		public function getName() {
-			return basename($this->name);
+			return basename($this->path);
 		}
 
 		public function getExt() {
@@ -47,7 +51,7 @@
 		}
 
 		public function getSize() {
-			return filesize($this->file);
+			return filesize($this->path);
 		}
 
 		public function getText() {
@@ -55,14 +59,14 @@
 		}
 
 		public function setText($text) {
-			unlink($this->path);
-			return file_put_contents($this->path);
+			// unlink($this->path);
+			/*return*/file_put_contents($this->path, $text);
 		}
 
 		public function appendText($text) {
-			return file_put_contents($this->path);
+			file_put_contents($this->path, $text, FILE_APPEND);
 		}
-
+		//Максименко И-03
 		public function copy($copyPath) {
 			copy($this->path, $copyPath);
 		}
@@ -72,18 +76,36 @@
 		}
 
 		public function rename($newName) {
-			rename($this->path, "./$newName");
-
 			// Аргумент - не путь!!!
+
+			rename($this->path, dirname($this->path)."newName");
 		}
 		
 		public function replace($newPath) {
 			rename($this->path, $newPath);
+			$this->path = $newPath;
 		}
 	}
 
-	$php = new File('phpText.txt');
+	$php = new File('dir/oneMoreDir/phpText.txt');
+	echo $php->getPath().'<br>';
 	echo $php->getDir().'<br>';
 	echo $php->getExt().'<br>';
-?>
+        echo $php->getText().'<br>';
+	$php->setText('test1');   
+        echo $php->getText().'<br>';
+	// $php->replace('phpReplaced.txt');
 
+
+        echo $php->getName().'<br>';
+        echo $php->getExt().'<br>';
+        // echo $php->setText('test').'<br>';   
+        echo $php->getSize().'<br>';
+
+        $php->appendText('Appended').'<br>';
+	echo $php->getText().'<br>';
+
+        $php->copy('copied.txt.').'<br>';  
+        // $php->delete().'<br>';         
+        // echo $php->rename('renamed').'<br>'; 
+?>
