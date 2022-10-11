@@ -6,12 +6,12 @@
 	class Hidden extends Input {
 		public function __construct()
 		{
-			$this->setAttr('type', 'hidden');
+			$this->setAttr('name', 'text');
 			parent::__construct();
 		}
 	}
 
-	$form = (new Form)->setAttrs(['action' => '75.1.php', 'method' => 'GET']);
+	$form = (new Form)->setAttrs(['action' => '76.1.php', 'method' => 'GET']);
 	
  	echo $form->open();
 		echo (new Hidden)->setAttr('name', 'id')->setAttr('value', '123');

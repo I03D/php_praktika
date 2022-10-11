@@ -12,8 +12,7 @@
 		}
 	}
 
-	$form = (new Form)->setAttrs(['action' => 'tes
-		t.php', 'method' => 'GET']);
+	$form = (new Form)->setAttrs(['action' => '73.1.php', 'method' => 'GET']);
 
  	echo $form->open();
 		echo (new Input)->setAttr('name', 'year');
